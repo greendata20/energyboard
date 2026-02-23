@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* Background layers */
+  --color-bg-base: #0D1117;
+  --color-bg-card: #161B22;
+  --color-bg-elevated: #21262D;
+  --color-bg-overlay: #30363D;
+
+  /* Borders */
+  --color-border: #30363D;
+  --color-border-subtle: #21262D;
+
+  /* Brand */
+  --color-primary: #2EA043;
+  --color-primary-hover: #3FB950;
+  --color-primary-muted: #1A3F24;
+
+  /* Electric / Power */
+  --color-electric: #388BFD;
+  --color-electric-hover: #58A6FF;
+  --color-electric-muted: #1A2F4E;
+
+  /* Amber / Warning */
+  --color-amber: #D29922;
+  --color-amber-hover: #E3B341;
+  --color-amber-muted: #3D2E0A;
+
+  /* Red / Carbon risk */
+  --color-danger: #DA3633;
+  --color-danger-hover: #F85149;
+  --color-danger-muted: #3F1515;
+
+  /* Text */
+  --color-text-primary: #E6EDF3;
+  --color-text-secondary: #8B949E;
+  --color-text-muted: #6E7681;
+
+  /* Chart palette */
+  --color-chart-1: #2EA043;
+  --color-chart-2: #388BFD;
+  --color-chart-3: #D29922;
+  --color-chart-4: #DA3633;
+  --color-chart-5: #A371F7;
+  --color-chart-6: #39C5CF;
+
+  /* Spacing / sizing shortcuts */
+  --radius: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-lg: 0.75rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #0D1117;
+  color: #E6EDF3;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0D1117;
+}
+::-webkit-scrollbar-thumb {
+  background: #30363D;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #484F58;
+}
+
+/* Recharts tooltip dark override */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: #161B22 !important;
+  border-color: #30363D !important;
+  color: #E6EDF3 !important;
+}
