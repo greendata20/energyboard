@@ -37,9 +37,9 @@ export default function LCAAnalysis() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="육상풍력 LCA" value="11" unit="gCO₂/kWh" icon={Wind} iconColor="#2EA043" />
-        <KPICard title="태양광(옥상) LCA" value="38" unit="gCO₂/kWh" icon={Sun} iconColor="#D29922" />
-        <KPICard title="원자력 LCA" value="12" unit="gCO₂/kWh" icon={Zap} iconColor="#388BFD" />
+        <KPICard title="육상풍력 LCA" value="11" unit="gCO₂/kWh" icon={Wind} iconColor="var(--color-primary)" />
+        <KPICard title="태양광(옥상) LCA" value="38" unit="gCO₂/kWh" icon={Sun} iconColor="var(--color-amber)" />
+        <KPICard title="원자력 LCA" value="12" unit="gCO₂/kWh" icon={Zap} iconColor="var(--color-electric)" />
         <KPICard title="석탄 대비 풍력 절감" value="98.7" unit="%" icon={Leaf} iconColor="#A371F7" />
       </div>
 
@@ -48,7 +48,7 @@ export default function LCAAnalysis() {
           <BarChart data={lcaData} layout="vertical" margin={{ left: 8 }}>
             <CartesianGrid {...DARK_GRID} horizontal={false} />
             <XAxis type="number" {...DARK_AXIS} unit=" gCO₂" />
-            <YAxis type="category" dataKey="source" {...DARK_AXIS} width={72} tick={{ fill: '#8B949E', fontSize: 11 }} />
+            <YAxis type="category" dataKey="source" {...DARK_AXIS} width={72} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
             <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${v} gCO₂/kWh`, '전과정 배출']} />
             <Bar dataKey="lifecycle_gco2_kwh" name="전과정 탄소배출" radius={[0, 3, 3, 0]}>
               {lcaData.map((entry, i) => (
@@ -70,45 +70,45 @@ export default function LCAAnalysis() {
         <ChartWrapper title="재생에너지 환경성 종합 비교">
           <ResponsiveContainer width="100%" height={280}>
             <RadarChart data={radarData}>
-              <PolarGrid stroke="#30363D" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: '#8B949E', fontSize: 11 }} />
+              <PolarGrid stroke="var(--color-border)" />
+              <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
               <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} />
               <Radar name="태양광" dataKey="태양광" stroke={CHART_COLORS[2]} fill={CHART_COLORS[2]} fillOpacity={0.2} />
               <Radar name="풍력" dataKey="풍력" stroke={CHART_COLORS[0]} fill={CHART_COLORS[0]} fillOpacity={0.2} />
               <Radar name="원자력" dataKey="원자력" stroke={CHART_COLORS[1]} fill={CHART_COLORS[1]} fillOpacity={0.2} />
               <Tooltip {...DARK_TOOLTIP_STYLE} />
-              <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+              <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
             </RadarChart>
           </ResponsiveContainer>
         </ChartWrapper>
 
-        <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-[#E6EDF3] mb-3">LCA 발전원별 상세 비교</h3>
+        <div className="bg-bg-card border border-border rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">LCA 발전원별 상세 비교</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-xs">
               <thead>
-                <tr className="border-b border-[#30363D]">
-                  <th className="px-2 py-2 text-left text-[#8B949E]">발전원</th>
-                  <th className="px-2 py-2 text-right text-[#8B949E]">탄소 gCO₂/kWh</th>
-                  <th className="px-2 py-2 text-right text-[#8B949E]">용수 L/kWh</th>
-                  <th className="px-2 py-2 text-right text-[#8B949E]">토지 m²/GWh</th>
+                <tr className="border-b border-border">
+                  <th className="px-2 py-2 text-left text-text-secondary">발전원</th>
+                  <th className="px-2 py-2 text-right text-text-secondary">탄소 gCO₂/kWh</th>
+                  <th className="px-2 py-2 text-right text-text-secondary">용수 L/kWh</th>
+                  <th className="px-2 py-2 text-right text-text-secondary">토지 m²/GWh</th>
                 </tr>
               </thead>
               <tbody>
                 {lcaData.map((row, i) => (
-                  <tr key={i} className="border-b border-[#21262D]">
-                    <td className="px-2 py-2 text-[#E6EDF3]">{row.source}</td>
-                    <td className={`px-2 py-2 text-right font-bold ${row.lifecycle_gco2_kwh > 400 ? 'text-[#F85149]' : row.lifecycle_gco2_kwh < 50 ? 'text-[#3FB950]' : 'text-[#D29922]'}`}>
+                  <tr key={i} className="border-b border-border-subtle">
+                    <td className="px-2 py-2 text-text-primary">{row.source}</td>
+                    <td className={`px-2 py-2 text-right font-bold ${row.lifecycle_gco2_kwh > 400 ? 'text-danger-hover' : row.lifecycle_gco2_kwh < 50 ? 'text-primary-hover' : 'text-amber'}`}>
                       {row.lifecycle_gco2_kwh}
                     </td>
-                    <td className="px-2 py-2 text-right text-[#8B949E]">{row.water_l_kwh}</td>
-                    <td className="px-2 py-2 text-right text-[#8B949E]">{row.land_m2_gwh}</td>
+                    <td className="px-2 py-2 text-right text-text-secondary">{row.water_l_kwh}</td>
+                    <td className="px-2 py-2 text-right text-text-secondary">{row.land_m2_gwh}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p className="text-[10px] text-[#6E7681] mt-2">출처: IPCC AR6 WG3 Annex III, 2022</p>
+          <p className="text-[10px] text-text-muted mt-2">출처: IPCC AR6 WG3 Annex III, 2022</p>
         </div>
       </div>
     </div>

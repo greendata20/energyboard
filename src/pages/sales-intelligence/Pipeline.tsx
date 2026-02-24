@@ -13,20 +13,27 @@ interface PipelineItem extends ProspectData {
 }
 
 const STAGE_COLORS: Record<PipelineStage, string> = {
-  잠재: '#30363D',
-  접촉: '#388BFD',
-  제안: '#D29922',
+  잠재: 'var(--color-text-muted)',
+  접촉: 'var(--color-electric)',
+  제안: 'var(--color-amber)',
   협상: '#A371F7',
-  완료: '#2EA043',
+  완료: 'var(--color-primary)',
 }
 
 export default function Pipeline() {
   const [items, setItems] = useState<PipelineItem[]>(() => {
+    const base = salesProspects.map(p => ({ ...p, stage: (p.stage ?? '잠재') as PipelineStage }))
     const saved = localStorage.getItem('greenos_pipeline')
     if (saved) {
-      try { return JSON.parse(saved) as PipelineItem[] } catch { /* ignore */ }
+      try {
+        const parsed = JSON.parse(saved) as PipelineItem[]
+        const savedIds = new Set(parsed.map(i => i.id))
+        // merge: keep saved stage info + append any new prospects not yet in storage
+        const newItems = base.filter(p => !savedIds.has(p.id))
+        return [...parsed, ...newItems]
+      } catch { /* ignore */ }
     }
-    return salesProspects.map(p => ({ ...p, stage: (p.stage ?? '잠재') as PipelineStage }))
+    return base
   })
   const [dragId, setDragId] = useState<string | null>(null)
 
@@ -49,10 +56,10 @@ export default function Pipeline() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="파이프라인 총계" value={items.length} unit="건" icon={KanbanSquare} iconColor="#388BFD" />
+        <KPICard title="파이프라인 총계" value={items.length} unit="건" icon={KanbanSquare} iconColor="var(--color-electric)" />
         <KPICard title="협상 중" value={byStage('협상').length} unit="건" icon={Clock} iconColor="#A371F7" />
-        <KPICard title="완료" value={byStage('완료').length} unit="건" icon={CheckCircle2} iconColor="#2EA043" />
-        <KPICard title="예상 매출" value={formatNumber(totalValue / 10000)} unit="만원" icon={DollarSign} iconColor="#D29922" />
+        <KPICard title="완료" value={byStage('완료').length} unit="건" icon={CheckCircle2} iconColor="var(--color-primary)" />
+        <KPICard title="예상 매출" value={formatNumber(totalValue / 10000)} unit="만원" icon={DollarSign} iconColor="var(--color-amber)" />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -61,7 +68,7 @@ export default function Pipeline() {
           return (
             <div
               key={stage}
-              className="flex flex-col min-h-80 bg-[#0D1117] rounded-lg border border-[#30363D] overflow-hidden"
+              className="flex flex-col min-h-80 bg-bg-base rounded-lg border border-border overflow-hidden"
               onDragOver={e => e.preventDefault()}
               onDrop={e => {
                 e.preventDefault()
@@ -70,13 +77,13 @@ export default function Pipeline() {
               }}
             >
               <div
-                className="flex items-center justify-between px-3 py-2.5 border-b border-[#30363D]"
+                className="flex items-center justify-between px-3 py-2.5 border-b border-border"
                 style={{ borderLeftWidth: 3, borderLeftColor: STAGE_COLORS[stage] }}
               >
-                <span className="text-xs font-semibold text-[#E6EDF3]">{stage}</span>
+                <span className="text-xs font-semibold text-text-primary">{stage}</span>
                 <span
                   className="text-xs font-bold px-1.5 py-0.5 rounded-full"
-                  style={{ backgroundColor: STAGE_COLORS[stage] + '30', color: STAGE_COLORS[stage] }}
+                  style={{ backgroundColor: `color-mix(in srgb, ${STAGE_COLORS[stage]} 20%, transparent)`, color: STAGE_COLORS[stage] }}
                 >
                   {stageItems.length}
                 </span>
@@ -88,25 +95,25 @@ export default function Pipeline() {
                     key={item.id}
                     draggable
                     onDragStart={() => setDragId(item.id)}
-                    className="bg-[#161B22] border border-[#30363D] rounded-lg p-2.5 cursor-grab active:cursor-grabbing hover:border-[#484F58] transition-colors"
+                    className="bg-bg-card border border-border rounded-lg p-2.5 cursor-grab active:cursor-grabbing hover:border-border transition-colors"
                   >
-                    <div className="text-xs font-medium text-[#E6EDF3] mb-1.5 leading-snug">{item.name}</div>
+                    <div className="text-xs font-medium text-text-primary mb-1.5 leading-snug">{item.name}</div>
                     <div className="flex items-center justify-between mb-1.5">
                       <Badge variant="outline" className="text-[10px]">{item.region}</Badge>
                       <span
                         className="text-[10px] font-bold"
-                        style={{ color: item.priority === 'high' ? '#F85149' : item.priority === 'medium' ? '#E3B341' : '#58A6FF' }}
+                        style={{ color: item.priority === 'high' ? 'var(--color-danger-hover)' : item.priority === 'medium' ? 'var(--color-amber-hover)' : 'var(--color-electric-hover)' }}
                       >
                         {item.opportunity_score}점
                       </span>
                     </div>
-                    <div className="text-[10px] text-[#6E7681]">{formatNumber(item.consumption_toe)} TOE</div>
+                    <div className="text-[10px] text-text-muted">{formatNumber(item.consumption_toe)} TOE</div>
                     <div className="mt-2 flex gap-1 flex-wrap">
                       {pipelineStages.filter(s => s !== stage).map(s => (
                         <button
                           key={s}
                           onClick={() => moveItem(item.id, s)}
-                          className="text-[9px] px-1.5 py-0.5 rounded bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3] transition-colors"
+                          className="text-[9px] px-1.5 py-0.5 rounded bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors"
                         >
                           → {s}
                         </button>
@@ -115,7 +122,7 @@ export default function Pipeline() {
                   </div>
                 ))}
                 {stageItems.length === 0 && (
-                  <div className="flex items-center justify-center h-16 text-xs text-[#6E7681] border border-dashed border-[#30363D] rounded-lg">
+                  <div className="flex items-center justify-center h-16 text-xs text-text-muted border border-dashed border-border rounded-lg">
                     여기로 드롭
                   </div>
                 )}

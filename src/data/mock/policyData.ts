@@ -20,7 +20,7 @@ export const policyTimeline: PolicyItem[] = [
 export const kesGCategories = [
   {
     area: '환경(E)',
-    color: '#2EA043',
+    color: 'var(--color-primary)',
     categories: [
       { name: '환경경영 목표', indicators: ['온실가스 감축 목표', '에너지 절감 목표', '수자원 절약 목표'] },
       { name: '환경성과 관리', indicators: ['온실가스 배출량', '에너지 사용량', '용수 사용량', '폐기물 발생량'] },
@@ -29,7 +29,7 @@ export const kesGCategories = [
   },
   {
     area: '사회(S)',
-    color: '#388BFD',
+    color: 'var(--color-electric)',
     categories: [
       { name: '노동', indicators: ['정규직 비율', '자발적 이직률', '안전보건 관리체계'] },
       { name: '공급망', indicators: ['공급망 ESG 리스크 관리', '협력사 ESG 지원'] },
@@ -38,7 +38,7 @@ export const kesGCategories = [
   },
   {
     area: '지배구조(G)',
-    color: '#D29922',
+    color: 'var(--color-amber)',
     categories: [
       { name: '이사회', indicators: ['이사회 내 ESG 안건 포함', '사외이사 비율', '대표이사·이사회 의장 분리'] },
       { name: '윤리경영', indicators: ['윤리규범 위반 사항', '반부패 정책'] },

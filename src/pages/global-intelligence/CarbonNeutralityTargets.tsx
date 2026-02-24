@@ -12,9 +12,9 @@ import {
 import { CheckCircle2, AlertTriangle, Clock, Globe } from 'lucide-react'
 
 const STATUS_CONFIG = {
-  on_track: { label: '순항 중', variant: 'primary' as const, color: '#2EA043' },
-  at_risk: { label: '위험', variant: 'amber' as const, color: '#D29922' },
-  in_progress: { label: '진행 중', variant: 'electric' as const, color: '#388BFD' },
+  on_track: { label: '순항 중', variant: 'primary' as const, color: 'var(--color-primary)' },
+  at_risk: { label: '위험', variant: 'amber' as const, color: 'var(--color-amber)' },
+  in_progress: { label: '진행 중', variant: 'electric' as const, color: 'var(--color-electric)' },
 }
 
 export default function CarbonNeutralityTargets() {
@@ -41,9 +41,9 @@ export default function CarbonNeutralityTargets() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="목표 순항 국가" value={onTrack} unit="개국" icon={CheckCircle2} iconColor="#2EA043" />
-        <KPICard title="위험 신호 국가" value={atRisk} unit="개국" icon={AlertTriangle} iconColor="#D29922" />
-        <KPICard title="진행 중" value={inProgress} unit="개국" icon={Clock} iconColor="#388BFD" />
+        <KPICard title="목표 순항 국가" value={onTrack} unit="개국" icon={CheckCircle2} iconColor="var(--color-primary)" />
+        <KPICard title="위험 신호 국가" value={atRisk} unit="개국" icon={AlertTriangle} iconColor="var(--color-amber)" />
+        <KPICard title="진행 중" value={inProgress} unit="개국" icon={Clock} iconColor="var(--color-electric)" />
         <KPICard title="한국 NDC 감축 목표" value={korea?.ndc_2030 ?? 40} unit="% (2030)" icon={Globe} iconColor="#A371F7" />
       </div>
 
@@ -51,7 +51,7 @@ export default function CarbonNeutralityTargets() {
         <ResponsiveContainer width="100%" height={320}>
           <BarChart data={barData} margin={{ bottom: 0 }}>
             <CartesianGrid {...DARK_GRID} />
-            <XAxis dataKey="country" {...DARK_AXIS} tick={{ fill: '#8B949E', fontSize: 11 }} />
+            <XAxis dataKey="country" {...DARK_AXIS} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
             <YAxis {...DARK_AXIS} unit="%" />
             <Tooltip
               {...DARK_TOOLTIP_STYLE}
@@ -70,7 +70,7 @@ export default function CarbonNeutralityTargets() {
                 />
               ))}
             </Bar>
-            <Bar dataKey="ndc_2030" name="2030 NDC 목표" fill="transparent" stroke="#8B949E" strokeDasharray="3 3" />
+            <Bar dataKey="ndc_2030" name="2030 NDC 목표" fill="transparent" stroke="var(--color-text-secondary)" strokeDasharray="3 3" />
           </BarChart>
         </ResponsiveContainer>
       </ChartWrapper>
@@ -79,11 +79,11 @@ export default function CarbonNeutralityTargets() {
         <ChartWrapper title="한국 vs OECD 평균 기후대응 역량">
           <ResponsiveContainer width="100%" height={260}>
             <RadarChart data={radarData}>
-              <PolarGrid stroke="#30363D" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: '#8B949E', fontSize: 11 }} />
+              <PolarGrid stroke="var(--color-border)" />
+              <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
               <PolarRadiusAxis angle={90} domain={[0, 100]} tick={false} />
               <Radar name="한국" dataKey="한국" stroke="#388BFD" fill="#388BFD" fillOpacity={0.2} />
-              <Radar name="OECD평균" dataKey="OECD평균" stroke="#2EA043" fill="#2EA043" fillOpacity={0.2} />
+              <Radar name="OECD평균" dataKey="OECD평균" stroke="var(--color-primary)" fill="#2EA043" fillOpacity={0.2} />
               <Tooltip {...DARK_TOOLTIP_STYLE} />
             </RadarChart>
           </ResponsiveContainer>
@@ -94,19 +94,19 @@ export default function CarbonNeutralityTargets() {
             const cfg = STATUS_CONFIG[country.status as keyof typeof STATUS_CONFIG]
             const progressPct = (country.current_reduction_pct / country.ndc_2030) * 100
             return (
-              <div key={i} className="bg-[#161B22] border border-[#30363D] rounded-lg p-3">
+              <div key={i} className="bg-bg-card border border-border rounded-lg p-3">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className={`text-sm font-semibold ${country.country === '한국' ? 'text-[#388BFD]' : 'text-[#E6EDF3]'}`}>
+                    <span className={`text-sm font-semibold ${country.country === '한국' ? 'text-electric' : 'text-text-primary'}`}>
                       {country.country}
                     </span>
                     <Badge variant={cfg.variant}>{cfg.label}</Badge>
                   </div>
-                  <span className="text-xs text-[#6E7681]">{country.target_year}년 목표</span>
+                  <span className="text-xs text-text-muted">{country.target_year}년 목표</span>
                 </div>
                 <div className="flex justify-between text-xs mb-1.5">
-                  <span className="text-[#8B949E]">2030 NDC 진척</span>
-                  <span className="text-[#E6EDF3]">{country.current_reduction_pct}% / {country.ndc_2030}%</span>
+                  <span className="text-text-secondary">2030 NDC 진척</span>
+                  <span className="text-text-primary">{country.current_reduction_pct}% / {country.ndc_2030}%</span>
                 </div>
                 <Progress
                   value={progressPct}

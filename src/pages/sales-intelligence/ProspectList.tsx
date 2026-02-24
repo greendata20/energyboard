@@ -35,15 +35,15 @@ export default function ProspectList() {
   const noBems = salesProspects.filter(p => !p.bems_installed).length
 
   const scoreColor = (score: number) =>
-    score >= 80 ? '#DA3633' : score >= 70 ? '#D29922' : '#388BFD'
+    score >= 80 ? 'var(--color-danger)' : score >= 70 ? 'var(--color-amber)' : 'var(--color-electric)'
 
   const columns = [
     {
-      key: 'name' as keyof ProspectData, label: '기관명', sortable: true,
+      key: 'name' as keyof ProspectData, label: '기관·기업명', sortable: true,
     },
     {
       key: 'type' as keyof ProspectData, label: '유형',
-      render: (v: unknown) => <span className="text-xs text-[#8B949E]">{String(v)}</span>,
+      render: (v: unknown) => <span className="text-xs text-text-secondary">{String(v)}</span>,
     },
     {
       key: 'region' as keyof ProspectData, label: '지역',
@@ -86,50 +86,50 @@ export default function ProspectList() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="전체 잠재 고객" value={salesProspects.length} unit="개 기관" icon={Building2} iconColor="#388BFD" />
-        <KPICard title="High Priority" value={highCount} unit="개" icon={Target} iconColor="#DA3633" />
-        <KPICard title="BEMS 미설치" value={noBems} unit="개" icon={Users} iconColor="#D29922" />
-        <KPICard title="평균 Opp. Score" value={avgScore} unit="/100" icon={TrendingUp} iconColor="#2EA043" />
+        <KPICard title="전체 잠재 고객" value={salesProspects.length} unit="개 기관·기업" icon={Building2} iconColor="var(--color-electric)" />
+        <KPICard title="High Priority" value={highCount} unit="개" icon={Target} iconColor="var(--color-danger)" />
+        <KPICard title="BEMS 미설치" value={noBems} unit="개" icon={Users} iconColor="var(--color-amber)" />
+        <KPICard title="평균 Opp. Score" value={avgScore} unit="/100" icon={TrendingUp} iconColor="var(--color-primary)" />
       </div>
 
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-4">
-        <div className="text-xs font-semibold text-[#8B949E] mb-3">Opportunity Score 알고리즘</div>
+      <div className="bg-bg-card border border-border rounded-lg p-4">
+        <div className="text-xs font-semibold text-text-secondary mb-3">Opportunity Score 알고리즘</div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
           {[
-            { label: '에너지 소비량 (40점)', desc: 'TOE 기준 상위 30% 이내 = 40점', color: '#D29922' },
-            { label: 'BEMS 미설치 (35점)', desc: 'BEMS 미설치 = 35점 (GreenOS 솔루션 적합성)', color: '#DA3633' },
-            { label: '탄소집약도 (25점)', desc: '업종 평균 대비 고배출 = 25점', color: '#388BFD' },
+            { label: '에너지 소비량 (40점)', desc: 'TOE 기준 상위 30% 이내 = 40점', color: 'var(--color-amber)' },
+            { label: 'BEMS 미설치 (35점)', desc: 'BEMS 미설치 = 35점 (GreenOS 솔루션 적합성)', color: 'var(--color-danger)' },
+            { label: '탄소집약도 (25점)', desc: '업종 평균 대비 고배출 = 25점', color: 'var(--color-electric)' },
           ].map((item, i) => (
-            <div key={i} className="bg-[#0D1117] rounded-md p-3">
+            <div key={i} className="bg-bg-base rounded-md p-3">
               <div className="font-medium mb-1" style={{ color: item.color }}>{item.label}</div>
-              <div className="text-[#8B949E]">{item.desc}</div>
+              <div className="text-text-secondary">{item.desc}</div>
             </div>
           ))}
         </div>
       </div>
 
-      <FilterBar search={search} onSearchChange={setSearch} searchPlaceholder="기관명 검색...">
+      <FilterBar search={search} onSearchChange={setSearch} searchPlaceholder="기관·기업명 검색...">
         <select value={regionFilter} onChange={e => setRegionFilter(e.target.value)}
-          className="bg-[#161B22] border border-[#30363D] text-[#E6EDF3] rounded-md px-2 py-1.5 text-sm focus:outline-none">
+          className="bg-bg-card border border-border text-text-primary rounded-md px-2 py-1.5 text-sm focus:outline-none">
           <option value="all">전체 지역</option>
           {regions.filter(r => r !== 'all').map(r => <option key={r} value={r}>{r}</option>)}
         </select>
         <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
-          className="bg-[#161B22] border border-[#30363D] text-[#E6EDF3] rounded-md px-2 py-1.5 text-sm focus:outline-none">
+          className="bg-bg-card border border-border text-text-primary rounded-md px-2 py-1.5 text-sm focus:outline-none">
           <option value="all">전체 유형</option>
           {types.filter(t => t !== 'all').map(t => <option key={t} value={t}>{t}</option>)}
         </select>
         <select value={priorityFilter} onChange={e => setPriorityFilter(e.target.value)}
-          className="bg-[#161B22] border border-[#30363D] text-[#E6EDF3] rounded-md px-2 py-1.5 text-sm focus:outline-none">
+          className="bg-bg-card border border-border text-text-primary rounded-md px-2 py-1.5 text-sm focus:outline-none">
           <option value="all">전체 우선순위</option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
         </select>
-        <div className="text-xs text-[#8B949E] ml-auto">{filtered.length}건</div>
+        <div className="text-xs text-text-secondary ml-auto">{filtered.length}건</div>
       </FilterBar>
 
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg overflow-hidden">
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
         <DataTable
           data={filtered as unknown as Record<string, unknown>[]}
           columns={columns as Parameters<typeof DataTable>[0]['columns']}
@@ -148,36 +148,36 @@ export default function ProspectList() {
                 { label: '에너지 소비', value: `${formatNumber(selected.consumption_toe)} TOE` },
                 { label: '탄소집약도', value: `${selected.carbon_intensity} tCO₂/kWh` },
               ].map((item, i) => (
-                <div key={i} className="bg-[#0D1117] rounded-lg p-3">
-                  <div className="text-xs text-[#8B949E]">{item.label}</div>
-                  <div className="text-sm text-[#E6EDF3] font-medium mt-0.5">{item.value}</div>
+                <div key={i} className="bg-bg-base rounded-lg p-3">
+                  <div className="text-xs text-text-secondary">{item.label}</div>
+                  <div className="text-sm text-text-primary font-medium mt-0.5">{item.value}</div>
                 </div>
               ))}
             </div>
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-[#8B949E]">BEMS 현황</span>
+              <span className="text-text-secondary">BEMS 현황</span>
               <Badge variant={selected.bems_installed ? 'primary' : 'danger'}>
                 {selected.bems_installed ? '설치 완료' : '미설치 ← 영업 타겟'}
               </Badge>
             </div>
             <div>
               <div className="flex justify-between text-xs mb-2">
-                <span className="text-[#8B949E]">Opportunity Score</span>
+                <span className="text-text-secondary">Opportunity Score</span>
                 <span className="font-bold" style={{ color: scoreColor(selected.opportunity_score) }}>
                   {selected.opportunity_score}/100
                 </span>
               </div>
               <Progress
                 value={selected.opportunity_score}
-                barClassName={selected.opportunity_score >= 80 ? 'bg-[#DA3633]' : selected.opportunity_score >= 70 ? 'bg-[#D29922]' : 'bg-[#388BFD]'}
+                barClassName={selected.opportunity_score >= 80 ? 'bg-danger' : selected.opportunity_score >= 70 ? 'bg-amber' : 'bg-electric'}
               />
             </div>
-            <div className="bg-[#0D1117] rounded-lg p-3">
-              <div className="text-xs text-[#8B949E] mb-2">추천 솔루션</div>
-              <div className="space-y-1.5 text-xs text-[#E6EDF3]">
-                {!selected.bems_installed && <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#2EA043]" />GreenOS BEMS 구축</div>}
-                <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#388BFD]" />탄소 MRV 시스템</div>
-                <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-[#D29922]" />ESG 공시 지원</div>
+            <div className="bg-bg-base rounded-lg p-3">
+              <div className="text-xs text-text-secondary mb-2">추천 솔루션</div>
+              <div className="space-y-1.5 text-xs text-text-primary">
+                {!selected.bems_installed && <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-primary" />GreenOS BEMS 구축</div>}
+                <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-electric" />탄소 MRV 시스템</div>
+                <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-amber" />ESG 공시 지원</div>
               </div>
             </div>
           </div>

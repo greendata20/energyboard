@@ -34,16 +34,16 @@ export function Dialog({ open, onClose, title, className, children }: DialogProp
       <div
         className={cn(
           'relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto',
-          'bg-[#161B22] border border-[#30363D] rounded-xl shadow-2xl',
+          'bg-bg-card border border-border rounded-xl shadow-2xl',
           className
         )}
       >
         {title && (
-          <div className="flex items-center justify-between p-4 border-b border-[#30363D]">
-            <h2 className="text-base font-semibold text-[#E6EDF3]">{title}</h2>
+          <div className="flex items-center justify-between p-4 border-b border-border">
+            <h2 className="text-base font-semibold text-text-primary">{title}</h2>
             <button
               onClick={onClose}
-              className="text-[#8B949E] hover:text-[#E6EDF3] transition-colors"
+              className="text-text-secondary hover:text-text-primary transition-colors"
             >
               <X size={18} />
             </button>

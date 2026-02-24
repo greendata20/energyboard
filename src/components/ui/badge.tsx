@@ -7,15 +7,15 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: 'bg-[#21262D] text-[#8B949E] border border-[#30363D]',
-  primary: 'bg-[#1A3F24] text-[#3FB950] border border-[#2EA043]',
-  electric: 'bg-[#1A2F4E] text-[#58A6FF] border border-[#388BFD]',
-  amber: 'bg-[#3D2E0A] text-[#E3B341] border border-[#D29922]',
-  danger: 'bg-[#3F1515] text-[#F85149] border border-[#DA3633]',
-  outline: 'bg-transparent text-[#8B949E] border border-[#30363D]',
-  high: 'bg-[#3F1515] text-[#F85149] border border-[#DA3633]',
-  medium: 'bg-[#3D2E0A] text-[#E3B341] border border-[#D29922]',
-  low: 'bg-[#1A2F4E] text-[#58A6FF] border border-[#388BFD]',
+  default: 'bg-bg-elevated text-text-secondary border border-border',
+  primary: 'bg-primary-muted text-primary-hover border border-primary',
+  electric: 'bg-electric-muted text-electric-hover border border-electric',
+  amber: 'bg-amber-muted text-amber-hover border border-amber',
+  danger: 'bg-danger-muted text-danger-hover border border-danger',
+  outline: 'bg-transparent text-text-secondary border border-border',
+  high: 'bg-danger-muted text-danger-hover border border-danger',
+  medium: 'bg-amber-muted text-amber-hover border border-amber',
+  low: 'bg-electric-muted text-electric-hover border border-electric',
 }
 
 export function Badge({ variant = 'default', className, children, ...props }: BadgeProps) {

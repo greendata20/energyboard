@@ -19,15 +19,15 @@ export default function KESGGuide() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="총 진단 항목" value={totalIndicators} unit="개 지표" icon={CheckSquare} iconColor="#2EA043" />
-        <KPICard title="환경(E) 항목" value="16" unit="개" icon={Leaf} iconColor="#2EA043" />
-        <KPICard title="사회(S) 항목" value="22" unit="개" icon={Users} iconColor="#388BFD" />
-        <KPICard title="지배구조(G) 항목" value="17" unit="개" icon={Building2} iconColor="#D29922" />
+        <KPICard title="총 진단 항목" value={totalIndicators} unit="개 지표" icon={CheckSquare} iconColor="var(--color-primary)" />
+        <KPICard title="환경(E) 항목" value="16" unit="개" icon={Leaf} iconColor="var(--color-primary)" />
+        <KPICard title="사회(S) 항목" value="22" unit="개" icon={Users} iconColor="var(--color-electric)" />
+        <KPICard title="지배구조(G) 항목" value="17" unit="개" icon={Building2} iconColor="var(--color-amber)" />
       </div>
 
-      <div className="bg-[#1A2F4E] border border-[#388BFD] rounded-lg p-4">
-        <div className="text-sm font-semibold text-[#58A6FF] mb-1">K-ESG 목적</div>
-        <p className="text-xs text-[#E6EDF3]">
+      <div className="bg-electric-muted border border-electric rounded-lg p-4">
+        <div className="text-sm font-semibold text-electric-hover mb-1">K-ESG 목적</div>
+        <p className="text-xs text-text-primary">
           국내 기업들이 글로벌 ESG 평가기관(MSCI, FTSE Russell, S&P)의 평가 기준과 괴리를 줄이고,
           중소·중견기업도 활용 가능한 표준화된 자가진단 체계 제공. GRI, SASB, TCFD, ISO 26000 기준을
           통합·재구성한 한국형 프레임워크.
@@ -49,12 +49,12 @@ export default function KESGGuide() {
               {area.categories.map((cat, i) => (
                 <div
                   key={i}
-                  className="bg-[#161B22] border rounded-lg p-4"
+                  className="bg-bg-card border rounded-lg p-4"
                   style={{ borderColor: area.color + '40' }}
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <div className="w-1.5 h-5 rounded-full" style={{ backgroundColor: area.color }} />
-                    <h3 className="text-sm font-semibold text-[#E6EDF3]">{cat.name}</h3>
+                    <h3 className="text-sm font-semibold text-text-primary">{cat.name}</h3>
                   </div>
                   <div className="space-y-2">
                     {cat.indicators.map((indicator, j) => (
@@ -63,7 +63,7 @@ export default function KESGGuide() {
                           style={{ borderColor: area.color + '60', backgroundColor: area.color + '10' }}>
                           <div className="w-2 h-0.5 rounded" style={{ backgroundColor: area.color }} />
                         </div>
-                        <span className="text-xs text-[#8B949E]">{indicator}</span>
+                        <span className="text-xs text-text-secondary">{indicator}</span>
                       </div>
                     ))}
                   </div>
@@ -71,9 +71,9 @@ export default function KESGGuide() {
               ))}
             </div>
 
-            <div className="mt-4 bg-[#0D1117] border border-[#30363D] rounded-lg p-4">
-              <h4 className="text-xs font-semibold text-[#8B949E] mb-2">GreenOS 솔루션 연계</h4>
-              <div className="text-xs text-[#E6EDF3] space-y-1">
+            <div className="mt-4 bg-bg-base border border-border rounded-lg p-4">
+              <h4 className="text-xs font-semibold text-text-secondary mb-2">GreenOS 솔루션 연계</h4>
+              <div className="text-xs text-text-primary space-y-1">
                 {area.area === '환경(E)' && (
                   <>
                     <div>• GreenOS BEMS: 에너지 사용량·온실가스 배출량 자동 측정 및 K-ESG 지표 자동 연계</div>
@@ -99,8 +99,8 @@ export default function KESGGuide() {
       </Tabs>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-[#E6EDF3] mb-3">주요 ESG 평가기관 프레임워크 비교</h3>
+        <div className="bg-bg-card border border-border rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">주요 ESG 평가기관 프레임워크 비교</h3>
           <div className="space-y-2">
             {[
               { name: 'K-ESG', origin: '한국 산업부', focus: '국내 기업 자가진단', compat: 'GRI+SASB+TCFD' },
@@ -108,13 +108,13 @@ export default function KESGGuide() {
               { name: 'TCFD', origin: '국제 FSB', focus: '기후 재무공시', compat: 'ISSB S2 기반' },
               { name: 'ISSB S1/S2', origin: '국제 IFRS', focus: '투자자 공시', compat: '2025~ 의무화 추진' },
             ].map((item, i) => (
-              <div key={i} className="flex items-start justify-between py-1.5 border-b border-[#21262D]">
+              <div key={i} className="flex items-start justify-between py-1.5 border-b border-border-subtle">
                 <div>
-                  <div className="text-xs font-medium text-[#E6EDF3]">{item.name}</div>
-                  <div className="text-[10px] text-[#6E7681]">{item.origin}</div>
+                  <div className="text-xs font-medium text-text-primary">{item.name}</div>
+                  <div className="text-[10px] text-text-muted">{item.origin}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-xs text-[#8B949E]">{item.focus}</div>
+                  <div className="text-xs text-text-secondary">{item.focus}</div>
                   <Badge variant="outline" className="text-[10px] mt-0.5">{item.compat}</Badge>
                 </div>
               </div>
@@ -122,8 +122,8 @@ export default function KESGGuide() {
           </div>
         </div>
 
-        <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-[#E6EDF3] mb-3">K-ESG 도입 단계</h3>
+        <div className="bg-bg-card border border-border rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">K-ESG 도입 단계</h3>
           <div className="space-y-3">
             {[
               { step: '1단계', title: '기준정보 수집', desc: '에너지 사용량, 온실가스 배출량, 인원 현황 등 기초 데이터 확보', done: true },
@@ -134,13 +134,13 @@ export default function KESGGuide() {
             ].map((item, i) => (
               <div key={i} className="flex items-start gap-3">
                 <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                  item.done ? 'bg-[#2EA043] text-white' : 'bg-[#21262D] text-[#6E7681]'
+                  item.done ? 'bg-primary text-white' : 'bg-bg-elevated text-text-muted'
                 }`}>
                   {item.step.slice(0, 1)}
                 </div>
                 <div>
-                  <div className="text-xs font-medium text-[#E6EDF3]">{item.title}</div>
-                  <div className="text-[10px] text-[#6E7681] mt-0.5">{item.desc}</div>
+                  <div className="text-xs font-medium text-text-primary">{item.title}</div>
+                  <div className="text-[10px] text-text-muted mt-0.5">{item.desc}</div>
                 </div>
               </div>
             ))}

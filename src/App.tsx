@@ -40,20 +40,20 @@ const PolicyTimeline = lazy(() => import('@/pages/policy/PolicyTimeline'))
 function PageSkeleton() {
   return (
     <div className="space-y-4 animate-pulse">
-      <div className="h-8 w-48 bg-[#21262D] rounded" />
+      <div className="h-8 w-48 bg-bg-elevated rounded" />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="h-24 bg-[#161B22] rounded-lg border border-[#30363D]" />
+          <div key={i} className="h-24 bg-bg-card rounded-lg border border-border" />
         ))}
       </div>
-      <div className="h-64 bg-[#161B22] rounded-lg border border-[#30363D]" />
+      <div className="h-64 bg-bg-card rounded-lg border border-border" />
     </div>
   )
 }
 
 function ErrorFallback() {
   return (
-    <div className="flex flex-col items-center justify-center h-64 text-[#8B949E]">
+    <div className="flex flex-col items-center justify-center h-64 text-text-secondary">
       <div className="text-lg font-semibold mb-2">페이지를 불러올 수 없습니다</div>
       <div className="text-sm">잠시 후 다시 시도해주세요.</div>
     </div>

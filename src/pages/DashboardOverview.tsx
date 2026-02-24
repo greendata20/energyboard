@@ -41,7 +41,7 @@ export default function DashboardOverview() {
       title: '전국 전력소비 (2024)',
       value: formatGWh(totalGwh),
       icon: Zap,
-      iconColor: '#388BFD',
+      iconColor: 'var(--color-electric)',
       change: 1.5,
       changeLabel: 'YoY',
       path: '/korea-energy/regional',
@@ -50,7 +50,7 @@ export default function DashboardOverview() {
       title: '온실가스 배출량 (2024)',
       value: `${formatNumber(latestCarbon, 1)} MtCO₂`,
       icon: Wind,
-      iconColor: '#DA3633',
+      iconColor: 'var(--color-danger)',
       change: -2.7,
       changeLabel: 'YoY',
       path: '/korea-energy/carbon',
@@ -59,14 +59,14 @@ export default function DashboardOverview() {
       title: 'High Priority 영업 기회',
       value: `${highPriorityProspects}건`,
       icon: Target,
-      iconColor: '#2EA043',
+      iconColor: 'var(--color-primary)',
       path: '/sales-intelligence/prospects',
     },
     {
       title: 'REC 현물가 (최근)',
       value: `${formatNumber(latestREC)}원`,
       icon: Globe,
-      iconColor: '#D29922',
+      iconColor: 'var(--color-amber)',
       change: 11.2,
       changeLabel: 'YTD',
       path: '/renewables/rec',
@@ -82,7 +82,7 @@ export default function DashboardOverview() {
       title: '필요 추가 감축량',
       value: `${formatNumber(carbonReductionNeeded, 1)} MtCO₂`,
       icon: TrendingDown,
-      iconColor: '#DA3633',
+      iconColor: 'var(--color-danger)',
       path: '/korea-energy/carbon',
     },
   ]
@@ -93,16 +93,16 @@ export default function DashboardOverview() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <div className="w-6 h-6 rounded-lg bg-[#2EA043] flex items-center justify-center">
+            <div className="w-6 h-6 rounded-lg bg-primary flex items-center justify-center">
               <Leaf size={12} className="text-white" />
             </div>
-            <h1 className="text-xl font-bold text-[#E6EDF3]">GreenOS Intelligence Dashboard</h1>
+            <h1 className="text-xl font-bold text-text-primary">GreenOS Intelligence Dashboard</h1>
           </div>
-          <p className="text-sm text-[#8B949E]">한국그린데이터 영업팀 내부용 — 2024년 데이터 기준</p>
+          <p className="text-sm text-text-secondary">한국그린데이터 영업팀 내부용 — 2024년 데이터 기준</p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#2EA043] animate-pulse" />
-          <span className="text-xs text-[#8B949E]">실시간 모니터링</span>
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <span className="text-xs text-text-secondary">실시간 모니터링</span>
         </div>
       </div>
 
@@ -129,7 +129,7 @@ export default function DashboardOverview() {
           title="온실가스 배출 추이"
           subtitle="MtCO₂, 2018~2024 실적"
           actions={
-            <button onClick={() => navigate('/korea-energy/carbon')} className="text-xs text-[#388BFD] hover:underline flex items-center gap-1">
+            <button onClick={() => navigate('/korea-energy/carbon')} className="text-xs text-electric hover:underline flex items-center gap-1">
               상세 <ArrowRight size={12} />
             </button>
           }
@@ -149,7 +149,7 @@ export default function DashboardOverview() {
           title="시도별 전력소비 Top 7"
           subtitle="GWh, 2024년"
           actions={
-            <button onClick={() => navigate('/korea-energy/regional')} className="text-xs text-[#388BFD] hover:underline flex items-center gap-1">
+            <button onClick={() => navigate('/korea-energy/regional')} className="text-xs text-electric hover:underline flex items-center gap-1">
               상세 <ArrowRight size={12} />
             </button>
           }
@@ -176,7 +176,7 @@ export default function DashboardOverview() {
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={recChart}>
               <CartesianGrid {...DARK_GRID} />
-              <XAxis dataKey="month" {...DARK_AXIS} tick={{ fill: '#8B949E', fontSize: 10 }} />
+              <XAxis dataKey="month" {...DARK_AXIS} tick={{ fill: 'var(--color-text-secondary)', fontSize: 10 }} />
               <YAxis {...DARK_AXIS} domain={[40000, 55000]} tickFormatter={v => `${(v/1000).toFixed(0)}k`} />
               <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${formatNumber(v as number)}원`, 'REC 단가']} />
               <Line type="monotone" dataKey="price" stroke={CHART_COLORS[0]} strokeWidth={2} dot={false} />
@@ -184,20 +184,20 @@ export default function DashboardOverview() {
           </ResponsiveContainer>
         </ChartWrapper>
 
-        <div className="lg:col-span-1 bg-[#161B22] border border-[#30363D] rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-[#E6EDF3] mb-3">영업 우선순위 현황</h3>
+        <div className="lg:col-span-1 bg-bg-card border border-border rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">영업 우선순위 현황</h3>
           <div className="space-y-3">
             {[
-              { label: 'High Priority', count: highPriorityProspects, color: '#DA3633', pct: (highPriorityProspects / salesProspects.length) * 100 },
-              { label: 'Medium Priority', count: salesProspects.filter(p => p.priority === 'medium').length, color: '#D29922', pct: (salesProspects.filter(p => p.priority === 'medium').length / salesProspects.length) * 100 },
-              { label: 'BEMS 미설치', count: salesProspects.filter(p => !p.bems_installed).length, color: '#388BFD', pct: (salesProspects.filter(p => !p.bems_installed).length / salesProspects.length) * 100 },
+              { label: 'High Priority', count: highPriorityProspects, color: 'var(--color-danger)', pct: (highPriorityProspects / salesProspects.length) * 100 },
+              { label: 'Medium Priority', count: salesProspects.filter(p => p.priority === 'medium').length, color: 'var(--color-amber)', pct: (salesProspects.filter(p => p.priority === 'medium').length / salesProspects.length) * 100 },
+              { label: 'BEMS 미설치', count: salesProspects.filter(p => !p.bems_installed).length, color: 'var(--color-electric)', pct: (salesProspects.filter(p => !p.bems_installed).length / salesProspects.length) * 100 },
             ].map((item, i) => (
               <div key={i}>
                 <div className="flex justify-between text-xs mb-1">
-                  <span className="text-[#8B949E]">{item.label}</span>
+                  <span className="text-text-secondary">{item.label}</span>
                   <span className="font-bold" style={{ color: item.color }}>{item.count}건</span>
                 </div>
-                <div className="w-full bg-[#21262D] rounded-full h-1.5">
+                <div className="w-full bg-bg-elevated rounded-full h-1.5">
                   <div className="h-1.5 rounded-full transition-all" style={{ width: `${item.pct}%`, backgroundColor: item.color }} />
                 </div>
               </div>
@@ -205,14 +205,14 @@ export default function DashboardOverview() {
           </div>
           <button
             onClick={() => navigate('/sales-intelligence/prospects')}
-            className="mt-3 w-full text-xs text-center text-[#388BFD] hover:underline flex items-center justify-center gap-1"
+            className="mt-3 w-full text-xs text-center text-electric hover:underline flex items-center justify-center gap-1"
           >
             영업 목록 보기 <ArrowRight size={12} />
           </button>
         </div>
 
-        <div className="lg:col-span-1 bg-[#161B22] border border-[#30363D] rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-[#E6EDF3] mb-3">주요 정책 알림</h3>
+        <div className="lg:col-span-1 bg-bg-card border border-border rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-text-primary mb-3">주요 정책 알림</h3>
           <div className="space-y-2.5">
             {[
               { date: '2026-01', title: 'EU CBAM 본격 시행', type: 'danger', impact: '철강·알루미늄 수출 기업 영향' },
@@ -225,15 +225,15 @@ export default function DashboardOverview() {
                   {item.date}
                 </Badge>
                 <div>
-                  <div className="text-xs text-[#E6EDF3] font-medium">{item.title}</div>
-                  <div className="text-[10px] text-[#6E7681]">{item.impact}</div>
+                  <div className="text-xs text-text-primary font-medium">{item.title}</div>
+                  <div className="text-[10px] text-text-muted">{item.impact}</div>
                 </div>
               </div>
             ))}
           </div>
           <button
             onClick={() => navigate('/policy/timeline')}
-            className="mt-3 w-full text-xs text-center text-[#388BFD] hover:underline flex items-center justify-center gap-1"
+            className="mt-3 w-full text-xs text-center text-electric hover:underline flex items-center justify-center gap-1"
           >
             전체 타임라인 <ArrowRight size={12} />
           </button>
@@ -241,32 +241,32 @@ export default function DashboardOverview() {
       </div>
 
       {/* 2030 NDC Progress */}
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg p-4">
+      <div className="bg-bg-card border border-border rounded-lg p-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-[#E6EDF3]">2030 NDC 목표 달성 진척도</h3>
-          <button onClick={() => navigate('/policy/ghg-targets')} className="text-xs text-[#388BFD] hover:underline flex items-center gap-1">
+          <h3 className="text-sm font-semibold text-text-primary">2030 NDC 목표 달성 진척도</h3>
+          <button onClick={() => navigate('/policy/ghg-targets')} className="text-xs text-electric hover:underline flex items-center gap-1">
             상세 <ArrowRight size={12} />
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <div className="flex justify-between text-xs mb-2">
-              <span className="text-[#8B949E]">2018 기준</span>
-              <span className="text-[#DA3633] font-bold">727.6 MtCO₂</span>
+              <span className="text-text-secondary">2018 기준</span>
+              <span className="text-danger font-bold">727.6 MtCO₂</span>
             </div>
             <div className="flex justify-between text-xs mb-2">
-              <span className="text-[#8B949E]">2024 현재</span>
-              <span className="text-[#D29922] font-bold">{latestCarbon} MtCO₂</span>
+              <span className="text-text-secondary">2024 현재</span>
+              <span className="text-amber font-bold">{latestCarbon} MtCO₂</span>
             </div>
             <div className="flex justify-between text-xs mb-2">
-              <span className="text-[#8B949E]">2030 목표 (NDC)</span>
-              <span className="text-[#2EA043] font-bold">{target2030} MtCO₂</span>
+              <span className="text-text-secondary">2030 목표 (NDC)</span>
+              <span className="text-primary font-bold">{target2030} MtCO₂</span>
             </div>
           </div>
           <div className="md:col-span-2">
             <div className="flex justify-between text-xs mb-2">
-              <span className="text-[#8B949E]">목표 달성률</span>
-              <span className="text-[#E6EDF3] font-bold">
+              <span className="text-text-secondary">목표 달성률</span>
+              <span className="text-text-primary font-bold">
                 {(((727.6 - latestCarbon) / (727.6 - target2030)) * 100).toFixed(1)}%
               </span>
             </div>
@@ -275,7 +275,7 @@ export default function DashboardOverview() {
               className="h-3"
               barClassName="bg-gradient-to-r from-[#DA3633] via-[#D29922] to-[#2EA043]"
             />
-            <div className="flex justify-between text-[10px] text-[#6E7681] mt-1.5">
+            <div className="flex justify-between text-[10px] text-text-muted mt-1.5">
               <span>2018 기준 (727.6)</span>
               <span>2030 목표 (436.6)</span>
             </div>

@@ -8,8 +8,8 @@ export function Select({ className, children, ...props }: SelectProps) {
   return (
     <select
       className={cn(
-        'bg-[#161B22] border border-[#30363D] text-[#E6EDF3] rounded-md px-3 py-1.5 text-sm',
-        'focus:outline-none focus:border-[#388BFD] transition-colors cursor-pointer',
+        'bg-bg-card border border-border text-text-primary rounded-md px-3 py-1.5 text-sm',
+        'focus:outline-none focus:border-electric transition-colors cursor-pointer',
         'appearance-none pr-8',
         className
       )}

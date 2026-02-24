@@ -78,22 +78,22 @@ export default function RegionalConsumption() {
             onClick={() => { setSelectedYear(Number(y)); setSelectedSido(null) }}
             className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
               year === Number(y)
-                ? 'bg-[#388BFD] text-white'
-                : 'bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3]'
+                ? 'bg-electric text-white'
+                : 'bg-bg-elevated text-text-secondary hover:text-text-primary'
             }`}
           >
             {y}년
           </button>
         ))}
         {year === 2025 && (
-          <span className="text-xs text-[#D29922]">※ 2025년 데이터는 추세 기반 추정치</span>
+          <span className="text-xs text-amber">※ 2025년 데이터는 추세 기반 추정치</span>
         )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="전국 총 소비" value={formatNumber(totalGwh)} unit="GWh" icon={Zap} iconColor="#388BFD" />
-        <KPICard title="최대 소비 지역" value={topRegion.sido} unit={`${formatNumber(topRegion.consumption_gwh)}GWh`} icon={MapPin} iconColor="#2EA043" />
-        <KPICard title="전국 평균 전년비" value={`${Number(avgYoy) > 0 ? '+' : ''}${avgYoy}`} unit="%" change={Number(avgYoy)} changeLabel="전년 대비" icon={TrendingUp} iconColor="#D29922" />
+        <KPICard title="전국 총 소비" value={formatNumber(totalGwh)} unit="GWh" icon={Zap} iconColor="var(--color-electric)" />
+        <KPICard title="최대 소비 지역" value={topRegion.sido} unit={`${formatNumber(topRegion.consumption_gwh)}GWh`} icon={MapPin} iconColor="var(--color-primary)" />
+        <KPICard title="전국 평균 전년비" value={`${Number(avgYoy) > 0 ? '+' : ''}${avgYoy}`} unit="%" change={Number(avgYoy)} changeLabel="전년 대비" icon={TrendingUp} iconColor="var(--color-amber)" />
         <KPICard title="1인당 평균" value={formatNumber(avgPerCapita)} unit="kWh" icon={Building2} iconColor="#A371F7" />
       </div>
 
@@ -101,10 +101,10 @@ export default function RegionalConsumption() {
         <ResponsiveContainer width="100%" height={360}>
           <BarChart data={chartData} margin={{ top: 0, right: 16, left: 0, bottom: 0 }}>
             <CartesianGrid {...DARK_GRID} />
-            <XAxis dataKey="sido" {...DARK_AXIS} tick={{ fill: '#8B949E', fontSize: 11 }} />
+            <XAxis dataKey="sido" {...DARK_AXIS} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
             <YAxis {...DARK_AXIS} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
             <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${formatNumber(v as number)} GWh`]} />
-            <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+            <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
             <Bar dataKey="산업" stackId="a" fill={CHART_COLORS[0]} />
             <Bar dataKey="상업" stackId="a" fill={CHART_COLORS[1]} />
             <Bar dataKey="주거" stackId="a" fill={CHART_COLORS[2]} radius={[2, 2, 0, 0]} />
@@ -124,9 +124,9 @@ export default function RegionalConsumption() {
         </ResponsiveContainer>
       </ChartWrapper>
 
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg overflow-hidden">
-        <div className="p-4 border-b border-[#30363D]">
-          <h3 className="text-sm font-semibold text-[#E6EDF3]">시도별 상세 데이터</h3>
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+        <div className="p-4 border-b border-border">
+          <h3 className="text-sm font-semibold text-text-primary">시도별 상세 데이터</h3>
         </div>
         <DataTable
           data={regionData as unknown as Record<string, unknown>[]}
@@ -137,27 +137,27 @@ export default function RegionalConsumption() {
       </div>
 
       {selected && (
-        <div className="bg-[#161B22] border border-[#2EA043] rounded-lg p-4">
+        <div className="bg-bg-card border border-primary rounded-lg p-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-[#E6EDF3]">{selected.sido} 상세</h3>
-            <button onClick={() => setSelectedSido(null)} className="text-xs text-[#8B949E] hover:text-[#E6EDF3]">닫기 ×</button>
+            <h3 className="text-sm font-semibold text-text-primary">{selected.sido} 상세</h3>
+            <button onClick={() => setSelectedSido(null)} className="text-xs text-text-secondary hover:text-text-primary">닫기 ×</button>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="bg-[#0D1117] rounded-md p-3">
-              <div className="text-xs text-[#8B949E]">총 소비</div>
-              <div className="text-lg font-bold text-[#E6EDF3]">{formatGWh(selected.consumption_gwh)}</div>
+            <div className="bg-bg-base rounded-md p-3">
+              <div className="text-xs text-text-secondary">총 소비</div>
+              <div className="text-lg font-bold text-text-primary">{formatGWh(selected.consumption_gwh)}</div>
             </div>
-            <div className="bg-[#0D1117] rounded-md p-3">
-              <div className="text-xs text-[#8B949E]">1인당</div>
-              <div className="text-lg font-bold text-[#E6EDF3]">{formatNumber(selected.per_capita_kwh)} kWh</div>
+            <div className="bg-bg-base rounded-md p-3">
+              <div className="text-xs text-text-secondary">1인당</div>
+              <div className="text-lg font-bold text-text-primary">{formatNumber(selected.per_capita_kwh)} kWh</div>
             </div>
-            <div className="bg-[#0D1117] rounded-md p-3">
-              <div className="text-xs text-[#8B949E]">산업용 비율</div>
-              <div className="text-lg font-bold text-[#2EA043]">{selected.industrial_pct}%</div>
+            <div className="bg-bg-base rounded-md p-3">
+              <div className="text-xs text-text-secondary">산업용 비율</div>
+              <div className="text-lg font-bold text-primary">{selected.industrial_pct}%</div>
             </div>
-            <div className="bg-[#0D1117] rounded-md p-3">
-              <div className="text-xs text-[#8B949E]">전년비 변화</div>
-              <div className={`text-lg font-bold ${selected.yoy_change > 0 ? 'text-[#F85149]' : 'text-[#2EA043]'}`}>
+            <div className="bg-bg-base rounded-md p-3">
+              <div className="text-xs text-text-secondary">전년비 변화</div>
+              <div className={`text-lg font-bold ${selected.yoy_change > 0 ? 'text-danger-hover' : 'text-primary'}`}>
                 {selected.yoy_change > 0 ? '+' : ''}{selected.yoy_change}%
               </div>
             </div>

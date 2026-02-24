@@ -39,19 +39,19 @@ export function Sidebar({ open }: SidebarProps) {
   return (
     <aside
       className={cn(
-        'flex flex-col h-full bg-[#0D1117] border-r border-[#21262D] transition-all duration-300 overflow-hidden',
+        'flex flex-col h-full bg-bg-base border-r border-border-subtle transition-all duration-300 overflow-hidden',
         open ? 'w-56' : 'w-0 md:w-14'
       )}
     >
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-4 border-b border-[#21262D] min-h-[56px] shrink-0">
-        <div className="w-7 h-7 rounded-lg bg-[#2EA043] flex items-center justify-center shrink-0">
+      <div className="flex items-center gap-2.5 px-4 py-4 border-b border-border-subtle min-h-[56px] shrink-0">
+        <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shrink-0">
           <Leaf size={14} className="text-white" />
         </div>
         {open && (
           <div className="overflow-hidden">
-            <div className="text-sm font-bold text-[#E6EDF3] whitespace-nowrap">GreenOS</div>
-            <div className="text-[10px] text-[#8B949E] whitespace-nowrap">Intelligence</div>
+            <div className="text-sm font-bold text-text-primary whitespace-nowrap">GreenOS</div>
+            <div className="text-[10px] text-text-secondary whitespace-nowrap">Intelligence</div>
           </div>
         )}
       </div>
@@ -73,8 +73,8 @@ export function Sidebar({ open }: SidebarProps) {
                 className={cn(
                   'flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm transition-colors mb-0.5',
                   isActive
-                    ? 'bg-[#1A3F24] text-[#3FB950]'
-                    : 'text-[#8B949E] hover:bg-[#161B22] hover:text-[#E6EDF3]'
+                    ? 'bg-primary-muted text-primary-hover'
+                    : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
                 )}
               >
                 <Icon size={15} className="shrink-0" />
@@ -90,8 +90,8 @@ export function Sidebar({ open }: SidebarProps) {
                 className={cn(
                   'w-full flex items-center gap-2.5 px-2.5 py-2 rounded-md text-sm transition-colors',
                   isActive
-                    ? 'bg-[#161B22] text-[#E6EDF3]'
-                    : 'text-[#8B949E] hover:bg-[#161B22] hover:text-[#E6EDF3]'
+                    ? 'bg-bg-card text-text-primary'
+                    : 'text-text-secondary hover:bg-bg-card hover:text-text-primary'
                 )}
               >
                 <Icon size={15} className="shrink-0" />
@@ -111,10 +111,10 @@ export function Sidebar({ open }: SidebarProps) {
                       to={child.path}
                       className={({ isActive: a }) =>
                         cn(
-                          'block px-2.5 py-1.5 rounded-md text-xs transition-colors border-l border-[#21262D] pl-3',
+                          'block px-2.5 py-1.5 rounded-md text-xs transition-colors border-l border-border-subtle pl-3',
                           a
-                            ? 'text-[#3FB950] border-[#2EA043] bg-[#0D1117]'
-                            : 'text-[#6E7681] hover:text-[#E6EDF3] hover:border-[#30363D]'
+                            ? 'text-primary-hover border-primary bg-bg-base'
+                            : 'text-text-muted hover:text-text-primary hover:border-border'
                         )
                       }
                     >
@@ -130,9 +130,9 @@ export function Sidebar({ open }: SidebarProps) {
 
       {/* Footer */}
       {open && (
-        <div className="px-3 py-3 border-t border-[#21262D] shrink-0">
-          <div className="text-[10px] text-[#6E7681]">GreenOS Intelligence v1.0</div>
-          <div className="text-[10px] text-[#6E7681]">내부 전용 · 2024년 데이터</div>
+        <div className="px-3 py-3 border-t border-border-subtle shrink-0">
+          <div className="text-[10px] text-text-muted">GreenOS Intelligence v1.0</div>
+          <div className="text-[10px] text-text-muted">내부 전용 · 2024년 데이터</div>
         </div>
       )}
     </aside>

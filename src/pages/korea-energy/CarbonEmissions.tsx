@@ -52,33 +52,33 @@ export default function CarbonEmissions() {
             onClick={() => setSelectedYear(y)}
             className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
               year === y
-                ? 'bg-[#388BFD] text-white'
-                : 'bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3]'
+                ? 'bg-electric text-white'
+                : 'bg-bg-elevated text-text-secondary hover:text-text-primary'
             }`}
           >
             {y}년
           </button>
         ))}
         {year === 2025 && (
-          <span className="text-xs text-[#D29922]">※ 2025년 데이터는 추세 기반 추정치</span>
+          <span className="text-xs text-amber">※ 2025년 데이터는 추세 기반 추정치</span>
         )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="총 배출량 (Scope 1)" value={formatNumber(totalScope1, 1)} unit="MtCO₂" icon={Factory} iconColor="#DA3633" />
-        <KPICard title="간접배출 (Scope 2)" value={formatNumber(totalScope2, 1)} unit="MtCO₂" icon={Leaf} iconColor="#D29922" />
-        <KPICard title="2030 NDC 목표" value={formatNumber(target2030, 1)} unit="MtCO₂" icon={Wind} iconColor="#2EA043" />
-        <KPICard title="필요 추가 감축량" value={formatNumber(current - target2030, 1)} unit="MtCO₂" change={-((current - target2030) / current * 100)} changeLabel="필요감축" icon={TrendingDown} iconColor="#388BFD" />
+        <KPICard title="총 배출량 (Scope 1)" value={formatNumber(totalScope1, 1)} unit="MtCO₂" icon={Factory} iconColor="var(--color-danger)" />
+        <KPICard title="간접배출 (Scope 2)" value={formatNumber(totalScope2, 1)} unit="MtCO₂" icon={Leaf} iconColor="var(--color-amber)" />
+        <KPICard title="2030 NDC 목표" value={formatNumber(target2030, 1)} unit="MtCO₂" icon={Wind} iconColor="var(--color-primary)" />
+        <KPICard title="필요 추가 감축량" value={formatNumber(current - target2030, 1)} unit="MtCO₂" change={-((current - target2030) / current * 100)} changeLabel="필요감축" icon={TrendingDown} iconColor="var(--color-electric)" />
       </div>
 
       <ChartWrapper title="부문별 Scope 1/2 배출량" subtitle={`단위: MtCO₂, ${year}년 기준`}>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={sectorData}>
             <CartesianGrid {...DARK_GRID} />
-            <XAxis dataKey="sector" {...DARK_AXIS} tick={{ fill: '#8B949E', fontSize: 11 }} />
+            <XAxis dataKey="sector" {...DARK_AXIS} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
             <YAxis {...DARK_AXIS} />
             <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${(v as number).toFixed(1)} MtCO₂`]} />
-            <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+            <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
             <Bar dataKey="Scope 1" stackId="a" fill={CHART_COLORS[3]} />
             <Bar dataKey="Scope 2" stackId="a" fill={CHART_COLORS[2]} radius={[2, 2, 0, 0]} />
           </BarChart>
@@ -93,7 +93,7 @@ export default function CarbonEmissions() {
               <XAxis dataKey="year" {...DARK_AXIS} />
               <YAxis {...DARK_AXIS} domain={[400, 750]} />
               <Tooltip {...DARK_TOOLTIP_STYLE} />
-              <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+              <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
               <Area
                 data={trendActual} type="monotone" dataKey="total_mtco2"
                 stroke={CHART_COLORS[3]} fill={`${CHART_COLORS[3]}25`} strokeWidth={2} name="실제 배출량"
@@ -102,8 +102,8 @@ export default function CarbonEmissions() {
                 data={trendTarget} type="monotone" dataKey="target"
                 stroke={CHART_COLORS[0]} strokeWidth={2} strokeDasharray="6 3" dot={false} name="NDC 경로"
               />
-              <ReferenceLine y={436.6} stroke="#2EA043" strokeDasharray="4 4"
-                label={{ value: '2030 목표', fill: '#2EA043', fontSize: 11 }} />
+              <ReferenceLine y={436.6} stroke="var(--color-primary)" strokeDasharray="4 4"
+                label={{ value: '2030 목표', fill: 'var(--color-primary)', fontSize: 11 }} />
             </ComposedChart>
           </ResponsiveContainer>
         </ChartWrapper>
@@ -117,16 +117,16 @@ export default function CarbonEmissions() {
               return (
                 <div key={i}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-[#E6EDF3]">{c.sector}</span>
-                    <span className="text-[#8B949E]">{curr.toFixed(1)} → {c.target_2030} MtCO₂</span>
+                    <span className="text-text-primary">{c.sector}</span>
+                    <span className="text-text-secondary">{curr.toFixed(1)} → {c.target_2030} MtCO₂</span>
                   </div>
-                  <div className="w-full bg-[#21262D] rounded-full h-2">
+                  <div className="w-full bg-bg-elevated rounded-full h-2">
                     <div
                       className="h-2 rounded-full transition-all"
                       style={{ width: `${100 - pct}%`, backgroundColor: CHART_COLORS[i % CHART_COLORS.length] }}
                     />
                   </div>
-                  <div className="text-[10px] text-[#6E7681] mt-0.5">감축 필요: {Math.max(0, needed).toFixed(1)} MtCO₂</div>
+                  <div className="text-[10px] text-text-muted mt-0.5">감축 필요: {Math.max(0, needed).toFixed(1)} MtCO₂</div>
                 </div>
               )
             })}
@@ -139,7 +139,7 @@ export default function CarbonEmissions() {
           <BarChart data={[...regionForYear].sort((a, b) => b.per_capita - a.per_capita)} layout="vertical" margin={{ left: 8 }}>
             <CartesianGrid {...DARK_GRID} horizontal={false} />
             <XAxis type="number" {...DARK_AXIS} />
-            <YAxis type="category" dataKey="sido" {...DARK_AXIS} width={40} tick={{ fill: '#8B949E', fontSize: 11 }} />
+            <YAxis type="category" dataKey="sido" {...DARK_AXIS} width={40} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
             <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${v} tCO₂/인`]} />
             <Bar dataKey="per_capita" name="1인당 탄소" radius={[0, 3, 3, 0]} fill={CHART_COLORS[3]} />
           </BarChart>

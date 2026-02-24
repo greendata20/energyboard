@@ -41,23 +41,23 @@ export default function CarbonIntensityMap() {
             onClick={() => setSelectedYear(y)}
             className={`px-3 py-1 rounded text-xs font-medium transition-colors ${
               selectedYear === y
-                ? 'bg-[#388BFD] text-white'
-                : 'bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3]'
+                ? 'bg-electric text-white'
+                : 'bg-bg-elevated text-text-secondary hover:text-text-primary'
             }`}
           >
             {y}년
           </button>
         ))}
         {selectedYear === 2025 && (
-          <span className="text-xs text-[#D29922]">※ 2025년 데이터는 추세 기반 추정치</span>
+          <span className="text-xs text-amber">※ 2025년 데이터는 추세 기반 추정치</span>
         )}
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="최고 탄소집약도" value={sorted[0]?.sido ?? '-'} unit={`${sorted[0]?.per_capita} tCO₂/인`} icon={AlertTriangle} iconColor="#DA3633" />
-        <KPICard title="전국 평균" value={avgIntensity.toFixed(1)} unit="tCO₂/인" icon={MapPin} iconColor="#D29922" />
+        <KPICard title="최고 탄소집약도" value={sorted[0]?.sido ?? '-'} unit={`${sorted[0]?.per_capita} tCO₂/인`} icon={AlertTriangle} iconColor="var(--color-danger)" />
+        <KPICard title="전국 평균" value={avgIntensity.toFixed(1)} unit="tCO₂/인" icon={MapPin} iconColor="var(--color-amber)" />
         <KPICard title="평균 초과 지역" value={sorted.filter(r => r.per_capita > avgIntensity).length} unit="개 지역" icon={TrendingUp} iconColor="#A371F7" />
-        <KPICard title="매핑된 영업 기회" value={salesProspects.length} unit="건" icon={Target} iconColor="#2EA043" />
+        <KPICard title="매핑된 영업 기회" value={salesProspects.length} unit="건" icon={Target} iconColor="var(--color-primary)" />
       </div>
 
       <ChartWrapper title="지역별 탄소집약도 (tCO₂/인)" subtitle="막대 클릭 시 해당 지역 영업 기회 표시">
@@ -78,7 +78,7 @@ export default function CarbonIntensityMap() {
               dataKey="sido"
               {...DARK_AXIS}
               interval={0}
-              tick={{ fill: '#8B949E', fontSize: 11 }}
+              tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }}
               angle={-40}
               textAnchor="end"
               height={65}
@@ -95,51 +95,51 @@ export default function CarbonIntensityMap() {
       </ChartWrapper>
 
       {selectedRegion && (
-        <div className="bg-[#161B22] border border-[#A371F7] rounded-lg p-4">
+        <div className="bg-bg-card border border-border rounded-lg p-4">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-[#E6EDF3]">
+            <h3 className="text-sm font-semibold text-text-primary">
               {selectedRegion} 영업 기회 ({regionProspects.length}건)
             </h3>
-            <button onClick={() => setSelectedRegion(null)} className="text-xs text-[#8B949E] hover:text-[#E6EDF3]">닫기 ×</button>
+            <button onClick={() => setSelectedRegion(null)} className="text-xs text-text-secondary hover:text-text-primary">닫기 ×</button>
           </div>
           {regionProspects.length > 0 ? (
             <div className="space-y-2">
               {regionProspects.map(p => (
-                <div key={p.id} className="flex items-center justify-between bg-[#0D1117] rounded-md px-3 py-2">
+                <div key={p.id} className="flex items-center justify-between bg-bg-base rounded-md px-3 py-2">
                   <div>
-                    <div className="text-sm text-[#E6EDF3]">{p.name}</div>
-                    <div className="text-xs text-[#8B949E]">{p.type} · {formatNumber(p.consumption_toe)} TOE</div>
+                    <div className="text-sm text-text-primary">{p.name}</div>
+                    <div className="text-xs text-text-secondary">{p.type} · {formatNumber(p.consumption_toe)} TOE</div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge variant={p.priority as 'high' | 'medium' | 'low'}>{p.priority === 'high' ? '고' : '중'}</Badge>
-                    <span className="text-sm font-bold text-[#DA3633]">{p.opportunity_score}점</span>
+                    <span className="text-sm font-bold text-danger">{p.opportunity_score}점</span>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-sm text-[#8B949E]">해당 지역 데이터가 없습니다.</div>
+            <div className="text-sm text-text-secondary">해당 지역 데이터가 없습니다.</div>
           )}
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {[
-          { label: '고강도 (>20 tCO₂/인)', color: '#DA3633', regions: sorted.filter(r => r.per_capita > 20) },
-          { label: '중강도 (10~20 tCO₂/인)', color: '#D29922', regions: sorted.filter(r => r.per_capita >= 10 && r.per_capita <= 20) },
-          { label: '저강도 (<10 tCO₂/인)', color: '#388BFD', regions: sorted.filter(r => r.per_capita < 10) },
+          { label: '고강도 (>20 tCO₂/인)', color: 'var(--color-danger)', regions: sorted.filter(r => r.per_capita > 20) },
+          { label: '중강도 (10~20 tCO₂/인)', color: 'var(--color-amber)', regions: sorted.filter(r => r.per_capita >= 10 && r.per_capita <= 20) },
+          { label: '저강도 (<10 tCO₂/인)', color: 'var(--color-electric)', regions: sorted.filter(r => r.per_capita < 10) },
         ].map(group => (
-          <div key={group.label} className="bg-[#161B22] border border-[#30363D] rounded-lg p-4">
+          <div key={group.label} className="bg-bg-card border border-border rounded-lg p-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: group.color }} />
-              <span className="text-xs font-medium text-[#E6EDF3]">{group.label}</span>
+              <span className="text-xs font-medium text-text-primary">{group.label}</span>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {group.regions.map(r => (
                 <button
                   key={r.sido}
                   onClick={() => setSelectedRegion(prev => prev === r.sido ? null : r.sido)}
-                  className="text-xs px-2 py-0.5 rounded-full bg-[#21262D] text-[#8B949E] hover:text-[#E6EDF3] transition-colors"
+                  className="text-xs px-2 py-0.5 rounded-full bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors"
                 >
                   {r.sido}
                 </button>

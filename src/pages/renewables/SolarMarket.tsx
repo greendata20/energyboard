@@ -37,9 +37,9 @@ export default function SolarMarket() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title={`${latest.year} 누적 설치용량`} value={latest.capacity_gw.toFixed(1)} unit="GW" icon={Sun} iconColor="#D29922" />
-        <KPICard title="연간 신규 설치" value={latest.new_gw.toFixed(1)} unit="GW" icon={Zap} iconColor="#2EA043" />
-        <KPICard title="태양광 LCOE" value={latest.lcoe_usd_mwh} unit="USD/MWh" icon={DollarSign} iconColor="#388BFD" />
+        <KPICard title={`${latest.year} 누적 설치용량`} value={latest.capacity_gw.toFixed(1)} unit="GW" icon={Sun} iconColor="var(--color-amber)" />
+        <KPICard title="연간 신규 설치" value={latest.new_gw.toFixed(1)} unit="GW" icon={Zap} iconColor="var(--color-primary)" />
+        <KPICard title="태양광 LCOE" value={latest.lcoe_usd_mwh} unit="USD/MWh" icon={DollarSign} iconColor="var(--color-electric)" />
         <KPICard title={`LCOE 하락 추이 (${first.year}→${latest.year})`} value={lcoeChange.toFixed(1)} unit="%" change={lcoeChange} icon={TrendingDown} iconColor="#A371F7" />
       </div>
 
@@ -51,7 +51,7 @@ export default function SolarMarket() {
               <XAxis dataKey="year" {...DARK_AXIS} />
               <YAxis {...DARK_AXIS} unit=" GW" />
               <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${v} GW`]} />
-              <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+              <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
               <Area type="monotone" dataKey="누적 용량" stroke={CHART_COLORS[2]} fill={`${CHART_COLORS[2]}30`} strokeWidth={2} />
               <Area type="monotone" dataKey="신규 설치" stroke={CHART_COLORS[0]} fill={`${CHART_COLORS[0]}30`} strokeWidth={2} />
             </AreaChart>
@@ -90,7 +90,7 @@ export default function SolarMarket() {
             <BarChart data={solarByRegion} layout="vertical" margin={{ left: 8 }}>
               <CartesianGrid {...DARK_GRID} horizontal={false} />
               <XAxis type="number" {...DARK_AXIS} />
-              <YAxis type="category" dataKey="region" {...DARK_AXIS} width={40} tick={{ fill: '#8B949E', fontSize: 11 }} />
+              <YAxis type="category" dataKey="region" {...DARK_AXIS} width={40} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
               <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${formatNumber(v as number)} MW`]} />
               <Bar dataKey="capacity_mw" name="설치용량" radius={[0, 3, 3, 0]}>
                 {solarByRegion.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}

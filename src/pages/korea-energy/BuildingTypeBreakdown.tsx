@@ -73,10 +73,10 @@ export default function BuildingTypeBreakdown() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="건물부문 총 소비" value={formatNumber(total)} unit="GWh" icon={Building2} iconColor="#388BFD" />
-        <KPICard title="최고 에너지원단위" value={mostIntense.type} unit={`${mostIntense.intensity_kwh_m2} kWh/m²`} icon={Zap} iconColor="#DA3633" />
-        <KPICard title="평균 에너지원단위" value={avgIntensity} unit="kWh/m²" icon={BarChart2} iconColor="#D29922" />
-        <KPICard title="원단위 개선 추세" value="-5.7" unit="% (4년)" change={-5.7} changeLabel="2020→2024" icon={TrendingDown} iconColor="#2EA043" />
+        <KPICard title="건물부문 총 소비" value={formatNumber(total)} unit="GWh" icon={Building2} iconColor="var(--color-electric)" />
+        <KPICard title="최고 에너지원단위" value={mostIntense.type} unit={`${mostIntense.intensity_kwh_m2} kWh/m²`} icon={Zap} iconColor="var(--color-danger)" />
+        <KPICard title="평균 에너지원단위" value={avgIntensity} unit="kWh/m²" icon={BarChart2} iconColor="var(--color-amber)" />
+        <KPICard title="원단위 개선 추세" value="-5.7" unit="% (4년)" change={-5.7} changeLabel="2020→2024" icon={TrendingDown} iconColor="var(--color-primary)" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -90,7 +90,7 @@ export default function BuildingTypeBreakdown() {
                 {pieData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
               </Pie>
               <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${formatNumber(v as number)} GWh`, '소비량']} />
-              <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+              <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
             </PieChart>
           </ResponsiveContainer>
         </ChartWrapper>
@@ -100,7 +100,7 @@ export default function BuildingTypeBreakdown() {
             <BarChart data={barData} layout="vertical" margin={{ left: 24 }}>
               <CartesianGrid {...DARK_GRID} horizontal={false} />
               <XAxis type="number" {...DARK_AXIS} />
-              <YAxis type="category" dataKey="name" {...DARK_AXIS} width={70} tick={{ fill: '#8B949E', fontSize: 11 }} />
+              <YAxis type="category" dataKey="name" {...DARK_AXIS} width={70} tick={{ fill: 'var(--color-text-secondary)', fontSize: 11 }} />
               <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${v} kWh/m²`]} />
               <Bar dataKey="강도" radius={[0, 4, 4, 0]}>
                 {barData.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
@@ -117,7 +117,7 @@ export default function BuildingTypeBreakdown() {
             <XAxis dataKey="year" {...DARK_AXIS} />
             <YAxis {...DARK_AXIS} />
             <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${v} kWh/m²`]} />
-            <Legend wrapperStyle={{ fontSize: 11, color: '#8B949E' }} />
+            <Legend wrapperStyle={{ fontSize: 11, color: 'var(--color-text-secondary)' }} />
             <Line type="monotone" dataKey="office" name="업무" stroke={CHART_COLORS[0]} strokeWidth={2} dot={false} />
             <Line type="monotone" dataKey="retail" name="판매" stroke={CHART_COLORS[1]} strokeWidth={2} dot={false} />
             <Line type="monotone" dataKey="hospital" name="의료" stroke={CHART_COLORS[3]} strokeWidth={2} dot={false} />
@@ -126,9 +126,9 @@ export default function BuildingTypeBreakdown() {
         </ResponsiveContainer>
       </ChartWrapper>
 
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg overflow-hidden">
-        <div className="p-4 border-b border-[#30363D]">
-          <h3 className="text-sm font-semibold text-[#E6EDF3]">건물유형별 상세 데이터</h3>
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
+        <div className="p-4 border-b border-border">
+          <h3 className="text-sm font-semibold text-text-primary">건물유형별 상세 데이터</h3>
         </div>
         <DataTable
           data={buildingEnergyByType as unknown as Record<string, unknown>[]}

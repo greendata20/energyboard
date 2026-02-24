@@ -1,24 +1,24 @@
 export const DARK_TOOLTIP_STYLE = {
   contentStyle: {
-    backgroundColor: '#161B22',
-    border: '1px solid #30363D',
+    backgroundColor: 'var(--color-bg-card)',
+    border: '1px solid var(--color-border)',
     borderRadius: '8px',
-    color: '#E6EDF3',
+    color: 'var(--color-text-primary)',
     fontSize: '12px',
   },
-  labelStyle: { color: '#8B949E' },
-  cursor: { stroke: '#30363D' },
+  labelStyle: { color: 'var(--color-text-secondary)' },
+  cursor: { stroke: 'var(--color-border)' },
 }
 
 export const DARK_GRID = {
-  stroke: '#21262D',
+  stroke: 'var(--color-border-subtle)',
   strokeDasharray: '3 3',
 }
 
 export const DARK_AXIS = {
-  tick: { fill: '#8B949E', fontSize: 11 },
-  axisLine: { stroke: '#30363D' },
-  tickLine: { stroke: '#30363D' },
+  tick: { fill: 'var(--color-text-secondary)', fontSize: 11 },
+  axisLine: { stroke: 'var(--color-border)' },
+  tickLine: { stroke: 'var(--color-border)' },
 }
 
 export const CHART_COLORS = ['#2EA043', '#388BFD', '#D29922', '#DA3633', '#A371F7', '#39C5CF', '#F0883E', '#56D364']

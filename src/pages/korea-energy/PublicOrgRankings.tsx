@@ -44,10 +44,10 @@ export default function PublicOrgRankings() {
 
   const columns = [
     { key: 'rank' as keyof PublicOrgData, label: '순위', sortable: true, align: 'center' as const,
-      render: (v: unknown) => <span className="text-[#8B949E] text-xs font-bold">#{String(v)}</span> },
+      render: (v: unknown) => <span className="text-text-secondary text-xs font-bold">#{String(v)}</span> },
     { key: 'org_name' as keyof PublicOrgData, label: '기관명', sortable: true },
     { key: 'ministry' as keyof PublicOrgData, label: '주무부처', render: (v: unknown) =>
-      <span className="text-xs text-[#8B949E]">{String(v)}</span> },
+      <span className="text-xs text-text-secondary">{String(v)}</span> },
     { key: 'region' as keyof PublicOrgData, label: '지역', render: (v: unknown) =>
       <Badge variant="outline">{String(v)}</Badge> },
     { key: 'consumption_toe' as keyof PublicOrgData, label: '소비 (TOE)', sortable: true, align: 'right' as const,
@@ -65,7 +65,7 @@ export default function PublicOrgRankings() {
       render: (v: unknown) => {
         const score = v as number
         return (
-          <span className="font-bold" style={{ color: score >= 80 ? '#F85149' : score >= 70 ? '#E3B341' : '#58A6FF' }}>
+          <span className="font-bold" style={{ color: score >= 80 ? 'var(--color-danger-hover)' : score >= 70 ? 'var(--color-amber-hover)' : 'var(--color-electric-hover)' }}>
             {score}
           </span>
         )
@@ -81,10 +81,10 @@ export default function PublicOrgRankings() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="총 에너지 소비" value={formatNumber(totalConsumption)} unit="TOE" icon={Zap} iconColor="#388BFD" />
-        <KPICard title="BEMS 미설치 기관" value={noBems} unit="개 (영업대상)" icon={Building2} iconColor="#DA3633" />
-        <KPICard title="High Opp. 기관 (80+)" value={highPriority} unit="개" icon={Target} iconColor="#D29922" />
-        <KPICard title="평균 Opp. Score" value={avgOppScore} unit="/100" icon={Wind} iconColor="#2EA043" />
+        <KPICard title="총 에너지 소비" value={formatNumber(totalConsumption)} unit="TOE" icon={Zap} iconColor="var(--color-electric)" />
+        <KPICard title="BEMS 미설치 기관" value={noBems} unit="개 (영업대상)" icon={Building2} iconColor="var(--color-danger)" />
+        <KPICard title="High Opp. 기관 (80+)" value={highPriority} unit="개" icon={Target} iconColor="var(--color-amber)" />
+        <KPICard title="평균 Opp. Score" value={avgOppScore} unit="/100" icon={Wind} iconColor="var(--color-primary)" />
       </div>
 
       <ChartWrapper title="상위 10개 기관 에너지 소비 (TOE)">
@@ -92,7 +92,7 @@ export default function PublicOrgRankings() {
           <BarChart data={top10Chart} layout="vertical" margin={{ left: 8 }}>
             <CartesianGrid {...DARK_GRID} horizontal={false} />
             <XAxis type="number" {...DARK_AXIS} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
-            <YAxis type="category" dataKey="name" {...DARK_AXIS} width={80} tick={{ fill: '#8B949E', fontSize: 10 }} />
+            <YAxis type="category" dataKey="name" {...DARK_AXIS} width={80} tick={{ fill: 'var(--color-text-secondary)', fontSize: 10 }} />
             <Tooltip {...DARK_TOOLTIP_STYLE} formatter={(v: unknown) => [`${formatNumber(v as number)} TOE`, '소비량']} />
             <Bar dataKey="toe" radius={[0, 3, 3, 0]}>
               {top10Chart.map((_, i) => (
@@ -111,7 +111,7 @@ export default function PublicOrgRankings() {
         <select
           value={ministryFilter}
           onChange={e => setMinistryFilter(e.target.value)}
-          className="bg-[#161B22] border border-[#30363D] text-[#E6EDF3] rounded-md px-2 py-1.5 text-sm focus:outline-none"
+          className="bg-bg-card border border-border text-text-primary rounded-md px-2 py-1.5 text-sm focus:outline-none"
         >
           <option value="all">전체 부처</option>
           {ministries.filter(m => m !== 'all').map(m => <option key={m} value={m}>{m}</option>)}
@@ -119,15 +119,15 @@ export default function PublicOrgRankings() {
         <select
           value={regionFilter}
           onChange={e => setRegionFilter(e.target.value)}
-          className="bg-[#161B22] border border-[#30363D] text-[#E6EDF3] rounded-md px-2 py-1.5 text-sm focus:outline-none"
+          className="bg-bg-card border border-border text-text-primary rounded-md px-2 py-1.5 text-sm focus:outline-none"
         >
           <option value="all">전체 지역</option>
           {regions.filter(r => r !== 'all').map(r => <option key={r} value={r}>{r}</option>)}
         </select>
-        <div className="text-xs text-[#8B949E] ml-auto">{filtered.length}개 기관</div>
+        <div className="text-xs text-text-secondary ml-auto">{filtered.length}개 기관</div>
       </FilterBar>
 
-      <div className="bg-[#161B22] border border-[#30363D] rounded-lg overflow-hidden">
+      <div className="bg-bg-card border border-border rounded-lg overflow-hidden">
         <DataTable
           data={filtered as unknown as Record<string, unknown>[]}
           columns={columns as Parameters<typeof DataTable>[0]['columns']}
@@ -152,16 +152,16 @@ export default function PublicOrgRankings() {
                 { label: 'CO₂ 배출', value: formatTCO2(selected.co2_tonne) },
                 { label: '전년 대비', value: `${selected.yoy_change > 0 ? '+' : ''}${selected.yoy_change}%` },
               ].map((item, i) => (
-                <div key={i} className="bg-[#0D1117] rounded-lg p-3">
-                  <div className="text-xs text-[#8B949E]">{item.label}</div>
-                  <div className="text-sm text-[#E6EDF3] font-medium mt-0.5">{item.value}</div>
+                <div key={i} className="bg-bg-base rounded-lg p-3">
+                  <div className="text-xs text-text-secondary">{item.label}</div>
+                  <div className="text-sm text-text-primary font-medium mt-0.5">{item.value}</div>
                 </div>
               ))}
             </div>
 
             <div>
               <div className="flex justify-between text-xs mb-2">
-                <span className="text-[#8B949E]">BEMS 현황</span>
+                <span className="text-text-secondary">BEMS 현황</span>
                 <Badge variant={selected.bems_installed ? 'primary' : 'danger'}>
                   {selected.bems_installed ? '설치 완료' : '미설치 ← GreenOS 영업 타겟'}
                 </Badge>
@@ -170,18 +170,18 @@ export default function PublicOrgRankings() {
 
             <div>
               <div className="flex justify-between text-xs mb-2">
-                <span className="text-[#8B949E]">Opportunity Score</span>
-                <span className="font-bold text-[#DA3633]">{selected.opportunity_score}/100</span>
+                <span className="text-text-secondary">Opportunity Score</span>
+                <span className="font-bold text-danger">{selected.opportunity_score}/100</span>
               </div>
               <Progress
                 value={selected.opportunity_score}
-                barClassName={selected.opportunity_score >= 80 ? 'bg-[#DA3633]' : 'bg-[#D29922]'}
+                barClassName={selected.opportunity_score >= 80 ? 'bg-danger' : 'bg-amber'}
               />
             </div>
 
-            <div className="bg-[#1A3F24] border border-[#2EA043] rounded-lg p-3">
-              <div className="text-xs text-[#3FB950] font-semibold mb-1">추천 영업 포인트</div>
-              <ul className="text-xs text-[#E6EDF3] space-y-1">
+            <div className="bg-primary-muted border border-primary rounded-lg p-3">
+              <div className="text-xs text-primary-hover font-semibold mb-1">추천 영업 포인트</div>
+              <ul className="text-xs text-text-primary space-y-1">
                 {!selected.bems_installed && (
                   <li>• BEMS 미설치: GreenOS 에너지관리시스템 도입 제안 (연간 {Math.round(selected.consumption_toe * 0.15)}TOE 절감 기대)</li>
                 )}
